@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Notifications</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var socket = io.connect('http://' + document.domain + ':' + location.port + '/notifications');
+
+            // Event handler for receiving notifications
+            socket.on('notification', function (data) {
+                var notificationsContainer = document.getElementById('notificationsContainer');
+                var newNotification = document.createElement('div');
+                newNotification.textContent = 'Notification: ' + data.data;
+                notificationsContainer.appendChild(newNotification);
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Flask Notifications</h1>
+    <form action="/trigger_notification" method="post">
+        <label for="notificationData">Notification

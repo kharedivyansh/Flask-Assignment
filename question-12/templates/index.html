@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Real-Time Updates</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+            // Function to handle updates
+            function handleUpdate(data) {
+                var valueElement = document.getElementById('value');
+                valueElement.textContent = data.value;
+            }
+
+            // Event handler for receiving updates
+            socket.on('update_data', function (data) {
+                handleUpdate(JSON.parse(data));
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Flask Real-Time Updates</h1>
+    <p>Value: <span id="value"></span></p>
+</body>
+</html>
